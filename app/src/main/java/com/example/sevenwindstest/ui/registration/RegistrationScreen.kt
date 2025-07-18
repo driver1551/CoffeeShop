@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
@@ -34,7 +35,12 @@ fun RegistrationScreen(
             .padding(16.dp),
         verticalArrangement = Arrangement.Center
     ) {
-        Text("Регистрация", style = MaterialTheme.typography.headlineSmall)
+        Text(
+            "Регистрация",
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.headlineSmall,
+            modifier = Modifier.fillMaxWidth()
+        )
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -83,7 +89,10 @@ fun RegistrationScreen(
             Text(
                 text = uiState.errorMessage,
                 color = Color.Red,
-                modifier = Modifier.padding(top = 8.dp)
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .padding(top = 8.dp)
+                    .fillMaxWidth(),
             )
         }
     }
@@ -96,7 +105,8 @@ fun RegisterScreenPreview() {
         uiState = RegistrationUiState(
             email = "test@example.com",
             password = "123456",
-            repeatPassword = "123456"
+            repeatPassword = "123456",
+            errorMessage = "Что-то пошло не так ..."
         ),
         onEmailChange = {},
         onPasswordChange = {},
@@ -105,4 +115,3 @@ fun RegisterScreenPreview() {
         onNavigateToLogin = {}
     )
 }
-
