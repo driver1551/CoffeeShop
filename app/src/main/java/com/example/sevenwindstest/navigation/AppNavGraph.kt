@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.sevenwindstest.ui.login.LoginRoute
 import com.example.sevenwindstest.ui.registration.RegistrationRoute
 
 @Composable
@@ -25,7 +26,15 @@ fun AppNavGraph(
         }
 
         composable(route = Screen.Login.route) {
-            Text("Login Screen")
+            LoginRoute(
+                onNavigateToCoffeeList = {
+                    navController.navigate(Screen.CoffeeList.route)
+                }
+            )
+        }
+
+        composable(route = Screen.CoffeeList.route) {
+            Text("Список кофеен")
         }
     }
 }
