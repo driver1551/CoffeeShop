@@ -7,7 +7,7 @@ data class LoginRequest(
 
 data class LoginResponse(
     val token: String,
-    val tokenLifeTime: String
+    val tokenLifeTime: Long
 )
 
 data class RegistrationRequest(
