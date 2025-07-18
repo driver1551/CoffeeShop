@@ -26,6 +26,7 @@ fun RegistrationRoute(
         onEmailChange = viewModel::onEmailChange,
         onPasswordChange = viewModel::onPasswordChange,
         onRepeatPasswordChange = viewModel::onRepeatPasswordChange,
-        onRegisterClick = viewModel::onRegisterClick
+        onRegisterClick = viewModel::onRegisterClick,
+        onLoginClick = viewModel::onLoginClick
     )
 }

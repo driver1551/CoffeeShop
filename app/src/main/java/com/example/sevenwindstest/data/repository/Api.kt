@@ -14,10 +14,10 @@ import retrofit2.http.Path
 
 interface Api {
 
-    @POST("login")
+    @POST("auth/login")
     suspend fun login(@Body request: LoginRequest): Response<LoginResponse>
 
-    @POST("registration")
+    @POST("auth/register")
     suspend fun registration(@Body request: RegistrationRequest): Response<RegistrationResponse>
 
     @GET("locations")

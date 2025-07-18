@@ -50,4 +50,10 @@ class RegistrationViewModel @Inject constructor(
             _uiState.setLoading(false)
         }
     }
+
+    fun onLoginClick() {
+        viewModelScope.launch {
+            _navigateToLogin.emit(Unit)
+        }
+    }
 }

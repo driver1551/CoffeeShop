@@ -11,6 +11,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -26,6 +27,7 @@ fun RegistrationScreen(
     onPasswordChange: (String) -> Unit,
     onRepeatPasswordChange: (String) -> Unit,
     onRegisterClick: () -> Unit,
+    onLoginClick: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -79,6 +81,10 @@ fun RegistrationScreen(
             Text("Зарегистрироваться")
         }
 
+        TextButton(onClick = onLoginClick) {
+            Text("Уже есть аккаунт? Войти")
+        }
+
         if (uiState.errorMessage != null) {
             Text(
                 text = uiState.errorMessage,
@@ -105,6 +111,7 @@ fun RegisterScreenPreview() {
         onEmailChange = {},
         onPasswordChange = {},
         onRepeatPasswordChange = {},
-        onRegisterClick = {}
+        onRegisterClick = {},
+        onLoginClick = {}
     )
 }
