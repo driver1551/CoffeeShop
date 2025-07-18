@@ -23,6 +23,11 @@ class LoginViewModel @Inject constructor(
     private val _navigateToCoffee = MutableSharedFlow<Unit>()
     val navigateToCoffee: SharedFlow<Unit> = _navigateToCoffee.asSharedFlow()
 
+    init {
+        _uiState.setEmail("driver")
+        _uiState.setPassword("driver")
+    }
+
     fun onLoginChange(newEmail: String) {
         _uiState.setEmail(newEmail)
     }

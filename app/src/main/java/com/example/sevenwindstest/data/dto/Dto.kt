@@ -19,14 +19,3 @@ data class RegistrationResponse(
     val token: String,
     val tokenLifeTime: String
 )
-
-data class Location(
-    val id: Long,
-    val name: String,
-    val point: Point,
-)
-
-data class Point(
-    val latitude: Double,
-    val longitude: Double,
-)
