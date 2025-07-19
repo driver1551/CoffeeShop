@@ -19,3 +19,21 @@ data class RegistrationResponse(
     val token: String,
     val tokenLifeTime: String
 )
+
+data class CoffeeShop(
+    val id: Int,
+    val name: String,
+    val point: Point
+)
+
+data class Point(
+    val latitude: Double,
+    val longitude: Double
+)
+
+data class CoffeeShopMenu(
+    val id: Int,
+    val name: String,
+    val imageUrl: String,
+    val price: Int
+)

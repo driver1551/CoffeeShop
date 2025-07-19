@@ -1,12 +1,11 @@
 package com.example.sevenwindstest.data.repository
 
+import com.example.sevenwindstest.data.dto.CoffeeShop
 import com.example.sevenwindstest.data.dto.LoginRequest
 import com.example.sevenwindstest.data.dto.LoginResponse
 import com.example.sevenwindstest.data.dto.RegistrationRequest
 import com.example.sevenwindstest.data.dto.RegistrationResponse
-import com.example.sevenwindstest.domain.model.CoffeeShop
 import retrofit2.Response
-
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -27,7 +26,7 @@ interface Api {
     ): Response<List<CoffeeShop>>
 
     @GET("locations/{id}")
-    suspend fun getCoffeeShopById(
+    suspend fun getCoffeeShopMenuById(
         @Path("id") id: Long,
         @Header("Authorization") token: String
     ): Response<CoffeeShop>

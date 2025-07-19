@@ -23,8 +23,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.sevenwindstest.domain.model.CoffeeShop
-import com.example.sevenwindstest.domain.model.Point
+import com.example.sevenwindstest.data.dto.CoffeeShop
+import com.example.sevenwindstest.data.dto.Point
 
 @Composable
 fun CoffeeShopListScreen(

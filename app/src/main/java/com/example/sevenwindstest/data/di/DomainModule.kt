@@ -1,7 +1,7 @@
 package com.example.sevenwindstest.data.di
 
 import com.example.sevenwindstest.data.repository.Api
-import com.example.sevenwindstest.domain.usecase.GetCoffeeShopByIdUseCase
+import com.example.sevenwindstest.domain.usecase.GetCoffeeShopMenuByIdUseCase
 import com.example.sevenwindstest.domain.usecase.GetCoffeeShopsUseCase
 import com.example.sevenwindstest.domain.usecase.LoginUseCase
 import com.example.sevenwindstest.domain.usecase.RegistrationUseCase
@@ -23,6 +23,6 @@ object DomainModule {
     fun provideGetLocationsUseCase(api: Api): GetCoffeeShopsUseCase = GetCoffeeShopsUseCase(api)
 
     @Provides
-    fun provideGetLocationByIdUseCase(api: Api): GetCoffeeShopByIdUseCase =
-        GetCoffeeShopByIdUseCase(api)
+    fun provideGetLocationByIdUseCase(api: Api): GetCoffeeShopMenuByIdUseCase =
+        GetCoffeeShopMenuByIdUseCase(api)
 }

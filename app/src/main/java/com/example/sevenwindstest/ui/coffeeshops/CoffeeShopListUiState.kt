@@ -1,6 +1,6 @@
 package com.example.sevenwindstest.ui.coffeeshops
 
-import com.example.sevenwindstest.domain.model.CoffeeShop
+import com.example.sevenwindstest.data.dto.CoffeeShop
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 
