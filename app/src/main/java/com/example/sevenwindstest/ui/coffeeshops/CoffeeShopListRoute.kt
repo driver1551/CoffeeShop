@@ -8,16 +8,16 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable
-fun CoffeeShopRoute(
-    onNavigateToCoffeeShop: () -> Unit
+fun CoffeeShopListRoute(
+    onNavigateToCoffeeShop: (Int) -> Unit
 ) {
     val viewModel: CoffeeShopListViewModel = hiltViewModel()
     val uiState by viewModel.uiState.collectAsState()
     val navigateToCoffeeShop by rememberUpdatedState(onNavigateToCoffeeShop)
 
     LaunchedEffect(Unit) {
-        viewModel.navigateToCoffeeShop.collect {
-            navigateToCoffeeShop()
+        viewModel.navigateToCoffeeShop.collect { id ->
+            navigateToCoffeeShop(id)
         }
     }
 

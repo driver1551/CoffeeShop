@@ -44,7 +44,7 @@ class LoginViewModel @Inject constructor(
                 _navigateToCoffee.emit(Unit)
             } else {
                 _uiState.setErrorMessage(result.toString())
-                _navigateToCoffee.emit(Unit) // заглушка
+                _navigateToCoffee.emit(Unit)
             }
             _uiState.setLoading(false)
         }

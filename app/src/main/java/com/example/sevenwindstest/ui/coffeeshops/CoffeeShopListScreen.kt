@@ -29,7 +29,7 @@ import com.example.sevenwindstest.domain.model.Point
 @Composable
 fun CoffeeShopListScreen(
     uiState: CoffeeShopListUiState,
-    onCoffeeShopClick: () -> Unit
+    onCoffeeShopClick: (Int) -> Unit
 ) {
     when {
         uiState.isLoading -> {
@@ -66,7 +66,7 @@ fun CoffeeShopListScreen(
                     .padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                items(uiState.coffeeShopList!!) { coffeeShop ->
+                items(uiState.coffeeShopList) { coffeeShop ->
                     CoffeeShopCard(coffeeShop, onClick = onCoffeeShopClick)
                 }
             }
@@ -77,12 +77,12 @@ fun CoffeeShopListScreen(
 @Composable
 fun CoffeeShopCard(
     coffeeShop: CoffeeShop,
-    onClick: () -> Unit
+    onClick: (Int) -> Unit
 ) {
     ElevatedCard(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { onClick() },
+            .clickable { onClick(coffeeShop.id) },
         shape = RoundedCornerShape(16.dp),
         elevation = CardDefaults.elevatedCardElevation(defaultElevation = 4.dp)
     ) {

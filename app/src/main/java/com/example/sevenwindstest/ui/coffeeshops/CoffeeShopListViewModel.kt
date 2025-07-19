@@ -20,8 +20,8 @@ class CoffeeShopListViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(CoffeeShopListUiState())
     val uiState = _uiState.asStateFlow()
 
-    private val _navigateToCoffeeShop = MutableSharedFlow<Unit>()
-    val navigateToCoffeeShop: SharedFlow<Unit> = _navigateToCoffeeShop.asSharedFlow()
+    private val _navigateToCoffeeShop = MutableSharedFlow<Int>()
+    val navigateToCoffeeShop: SharedFlow<Int> = _navigateToCoffeeShop.asSharedFlow()
 
     init {
         viewModelScope.launch {
@@ -36,6 +36,9 @@ class CoffeeShopListViewModel @Inject constructor(
         }
     }
 
-    fun onCoffeeShopClick() {
+    fun onCoffeeShopClick(id: Int) {
+        viewModelScope.launch {
+            _navigateToCoffeeShop.emit( id)
+        }
     }
 }
