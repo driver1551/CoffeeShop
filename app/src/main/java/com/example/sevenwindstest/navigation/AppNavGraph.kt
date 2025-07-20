@@ -47,7 +47,7 @@ fun AppNavGraph(
 
         composable(
             route = Screen.CoffeeShop.route,
-            arguments = listOf(navArgument("id") { type = NavType.IntType })
+            arguments = listOf(navArgument("id") { type = NavType.LongType })
         ) { backStackEntry ->
             CoffeeShopMenuRoute()
         }
