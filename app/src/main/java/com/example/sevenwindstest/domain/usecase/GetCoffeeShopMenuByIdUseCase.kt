@@ -1,13 +1,13 @@
 package com.example.sevenwindstest.domain.usecase
 
 import com.example.sevenwindstest.data.User
+import com.example.sevenwindstest.data.dto.CoffeeShopMenu
 import com.example.sevenwindstest.data.repository.Api
-import com.example.sevenwindstest.domain.model.CoffeeShop
 
-class GetCoffeeShopByIdUseCase(private val api: Api) {
-    suspend operator fun invoke(id: Long): Result<CoffeeShop> {
+class GetCoffeeShopMenuByIdUseCase(private val api: Api) {
+    suspend operator fun invoke(id: Long): Result<List<CoffeeShopMenu>> {
         return try {
-            val response = api.getCoffeeShopById(
+            val response = api.getCoffeeShopMenuById(
                 id = id,
                 token = "Bearer ${User.token!!}"
             )

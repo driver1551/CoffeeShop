@@ -1,8 +1,8 @@
 package com.example.sevenwindstest.domain.usecase
 
 import com.example.sevenwindstest.data.User
+import com.example.sevenwindstest.data.dto.CoffeeShop
 import com.example.sevenwindstest.data.repository.Api
-import com.example.sevenwindstest.domain.model.CoffeeShop
 
 class GetCoffeeShopsUseCase(private val api: Api) {
     suspend operator fun invoke(): Result<List<CoffeeShop>> {
