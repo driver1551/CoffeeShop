@@ -32,8 +32,8 @@ data class Point(
 )
 
 data class CoffeeShopMenu(
-    val id: Int,
+    val id: Long,
     val name: String,
-    val imageUrl: String,
-    val price: Int
+    val imageURL: String,
+    val price: Long
 )
