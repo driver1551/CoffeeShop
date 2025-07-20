@@ -1,6 +1,7 @@
 package com.example.sevenwindstest.data.repository
 
 import com.example.sevenwindstest.data.dto.CoffeeShop
+import com.example.sevenwindstest.data.dto.CoffeeShopMenu
 import com.example.sevenwindstest.data.dto.LoginRequest
 import com.example.sevenwindstest.data.dto.LoginResponse
 import com.example.sevenwindstest.data.dto.RegistrationRequest
@@ -25,10 +26,10 @@ interface Api {
         @Header("Authorization") token: String
     ): Response<List<CoffeeShop>>
 
-    @GET("locations/{id}")
+    @GET("location/{id}/menu")
     suspend fun getCoffeeShopMenuById(
         @Path("id") id: Long,
         @Header("Authorization") token: String
-    ): Response<CoffeeShop>
+    ): Response<List<CoffeeShopMenu>>
 }
 
