@@ -3,6 +3,7 @@ package com.example.sevenwindstest.ui.coffeeShopMenu
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,6 +23,7 @@ import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -33,6 +35,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.sevenwindstest.data.dto.CoffeeShopMenuItem
+import com.example.sevenwindstest.navigation.AppTopBar
 import com.example.sevenwindstest.ui.shoppingCart.ShoppingCartUiState
 
 @Composable
@@ -41,71 +44,87 @@ fun CoffeeShopMenuScreen(
     cartState: ShoppingCartUiState,
     onToShoppingCartClick: () -> Unit,
     onAddItem: (CoffeeShopMenuItem) -> Unit,
-    onRemoveItem: (CoffeeShopMenuItem) -> Unit
+    onRemoveItem: (CoffeeShopMenuItem) -> Unit,
+    onBackClick: () -> Unit
 ) {
-    when {
-        uiState.isLoading -> {
-            IsLoading()
-        }
+    Scaffold(
+        topBar = {
+            AppTopBar(
+                title = "Меню",
+                canNavigateBack = true,
+                onBackClick = onBackClick
+            )
+        }, content = { innerPadding ->
+            when {
+                uiState.isLoading -> {
+                    IsLoading(innerPadding)
+                }
 
-        uiState.errorMessage != null -> {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(text = uiState.errorMessage, color = Color.Red)
-            }
-        }
-
-        uiState.coffeeShopMenuItemList == null -> {
-            IsLoading()
-        }
-
-        uiState.coffeeShopMenuItemList.isEmpty() -> {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(text = "Товары не найдены", color = Color.Red)
-            }
-        }
-
-        else -> {
-            Column {
-                LazyVerticalGrid(
-                    columns = GridCells.Fixed(2),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp)
-                        .weight(1f),
-                    verticalArrangement = Arrangement.spacedBy(12.dp),
-                    horizontalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
-                    items(uiState.coffeeShopMenuItemList) { coffeeShopMenu ->
-                        val quantity = cartState.items
-                            .find { it.item.id == coffeeShopMenu.id }
-                            ?.quantity ?: 0
-
-                        MenuItem(
-                            coffeeShopMenuItem = coffeeShopMenu,
-                            quantity = quantity,
-                            onAddItem = onAddItem,
-                            onRemoveItem = onRemoveItem
-                        )
+                uiState.errorMessage != null -> {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(innerPadding),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(text = uiState.errorMessage, color = Color.Red)
                     }
                 }
 
-                Button(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp),
-                    onClick = onToShoppingCartClick
-                ) {
-                    Text("Перейти к оплате")
+                uiState.coffeeShopMenuItemList == null -> {
+                    IsLoading(innerPadding)
+                }
+
+                uiState.coffeeShopMenuItemList.isEmpty() -> {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(innerPadding),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(text = "Товары не найдены", color = Color.Red)
+                    }
+                }
+
+                else -> {
+                    Column {
+                        LazyVerticalGrid(
+                            columns = GridCells.Fixed(2),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(innerPadding)
+                                .padding(vertical = 8.dp)
+                                .weight(1f),
+                            verticalArrangement = Arrangement.spacedBy(12.dp),
+                            horizontalArrangement = Arrangement.spacedBy(12.dp)
+                        ) {
+                            items(uiState.coffeeShopMenuItemList) { coffeeShopMenu ->
+                                val quantity = cartState.items
+                                    .find { it.item.id == coffeeShopMenu.id }
+                                    ?.quantity ?: 0
+
+                                MenuItem(
+                                    coffeeShopMenuItem = coffeeShopMenu,
+                                    quantity = quantity,
+                                    onAddItem = onAddItem,
+                                    onRemoveItem = onRemoveItem
+                                )
+                            }
+                        }
+
+                        Button(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp),
+                            onClick = onToShoppingCartClick
+                        ) {
+                            Text("Перейти к оплате")
+                        }
+                    }
                 }
             }
         }
-    }
+    )
 }
 
 @Composable
@@ -170,9 +189,11 @@ fun MenuItem(
 }
 
 @Composable
-fun IsLoading() {
+fun IsLoading(innerPadding: PaddingValues) {
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(innerPadding),
         contentAlignment = Alignment.Center
     ) {
         CircularProgressIndicator()
@@ -218,6 +239,7 @@ fun CoffeeShopMenuScreenPreview() {
         onToShoppingCartClick = {},
         onAddItem = {},
         onRemoveItem = {},
-        cartState = ShoppingCartUiState()
+        cartState = ShoppingCartUiState(),
+        onBackClick = {}
     )
 }

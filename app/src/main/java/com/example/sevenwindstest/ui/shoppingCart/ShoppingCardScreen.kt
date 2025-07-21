@@ -19,6 +19,7 @@ import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -30,82 +31,97 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sevenwindstest.data.dto.CartItem
 import com.example.sevenwindstest.data.dto.CoffeeShopMenuItem
+import com.example.sevenwindstest.navigation.AppTopBar
 
 @Composable
 fun ShoppingCartScreen(
     cartState: ShoppingCartUiState,
     onAddItem: (CoffeeShopMenuItem) -> Unit,
-    onRemoveItem: (CoffeeShopMenuItem) -> Unit
+    onRemoveItem: (CoffeeShopMenuItem) -> Unit,
+    onBackClick: () -> Unit
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    ) {
-        Text("Ваш заказ", style = MaterialTheme.typography.titleLarge)
+    Scaffold(
+        topBar = {
+            AppTopBar(
+                title = "Ваш заказ",
+                canNavigateBack = true,
+                onBackClick = onBackClick
+            )
+        }, content = { innerPadding ->
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding)
+                    .padding(horizontal = 4.dp)
+                    .padding(vertical = 4.dp)
+            ) {
+                LazyColumn {
+                    items(cartState.items) { cartItem ->
+                        ElevatedCard(
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            shape = RoundedCornerShape(12.dp)
+                        ) {
+                            Row(
+                                Modifier
+                                    .fillMaxWidth()
+                                    .padding(16.dp),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Column {
+                                    Text(cartItem.item.name, fontWeight = FontWeight.Bold)
+                                    Text(
+                                        "${cartItem.item.price} руб",
+                                        style = MaterialTheme.typography.bodyMedium
+                                    )
+                                }
 
-        Spacer(modifier = Modifier.height(16.dp))
+                                Row(verticalAlignment = Alignment.CenterVertically) {
+                                    IconButton(onClick = { onRemoveItem(cartItem.item) }) {
+                                        Icon(
+                                            Icons.Default.Remove,
+                                            contentDescription = "Удалить 1 товар"
+                                        )
+                                    }
 
-        LazyColumn {
-            items(cartState.items) { cartItem ->
-                ElevatedCard(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 4.dp),
-                    shape = RoundedCornerShape(12.dp)
-                ) {
-                    Row(
-                        Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Column {
-                            Text(cartItem.item.name, fontWeight = FontWeight.Bold)
-                            Text(
-                                "${cartItem.item.price} руб",
-                                style = MaterialTheme.typography.bodyMedium
-                            )
-                        }
+                                    Text(
+                                        cartItem.quantity.toString(),
+                                        modifier = Modifier.padding(horizontal = 8.dp)
+                                    )
 
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            IconButton(onClick = { onRemoveItem(cartItem.item) }) {
-                                Icon(Icons.Default.Remove, contentDescription = "Удалить 1 товар")
-                            }
-
-                            Text(
-                                cartItem.quantity.toString(),
-                                modifier = Modifier.padding(horizontal = 8.dp)
-                            )
-
-                            IconButton(onClick = { onAddItem(cartItem.item) }) {
-                                Icon(Icons.Default.Add, contentDescription = "Добавть 1 товар")
+                                    IconButton(onClick = { onAddItem(cartItem.item) }) {
+                                        Icon(
+                                            Icons.Default.Add,
+                                            contentDescription = "Добавть 1 товар"
+                                        )
+                                    }
+                                }
                             }
                         }
                     }
                 }
+
+                Spacer(modifier = Modifier.weight(1f))
+
+                Text(
+                    text = "Время ожидания заказа\n15 минут!\nСпасибо, что выбрали нас!",
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Center,
+                    fontSize = 16.sp
+                )
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Button(
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = {}
+                ) {
+                    Text("Оплатить")
+                }
             }
         }
-        
-        Spacer(modifier = Modifier.weight(1f))
-
-        Text(
-            text = "Время ожидания заказа\n15 минут!\nСпасибо, что выбрали нас!",
-            modifier = Modifier.fillMaxWidth(),
-            textAlign = TextAlign.Center,
-            fontSize = 16.sp
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Button(
-            modifier = Modifier.fillMaxWidth(),
-            onClick = {}
-        ) {
-            Text("Оплатить")
-        }
-    }
+    )
 }
 
 @Composable
@@ -153,6 +169,7 @@ fun ShoppingCartScreenPreview() {
             )
         ),
         onAddItem = {},
-        onRemoveItem = {}
+        onRemoveItem = {},
+        onBackClick = {}
     )
 }

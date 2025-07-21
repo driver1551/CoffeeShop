@@ -21,7 +21,8 @@ fun ShoppingCartRoute(navController: NavHostController) {
     ShoppingCartScreen(
         cartState = uiState,
         onAddItem = viewModel::addItem,
-        onRemoveItem = viewModel::removeItem
+        onRemoveItem = viewModel::removeItem,
+        onBackClick = {navController.popBackStack()}
     )
 }
 

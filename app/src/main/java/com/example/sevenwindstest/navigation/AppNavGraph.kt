@@ -1,8 +1,6 @@
 package com.example.sevenwindstest.navigation
 
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -14,7 +12,6 @@ import com.example.sevenwindstest.ui.coffeeshops.CoffeeShopListRoute
 import com.example.sevenwindstest.ui.login.LoginRoute
 import com.example.sevenwindstest.ui.registration.RegistrationRoute
 import com.example.sevenwindstest.ui.shoppingCart.ShoppingCartRoute
-import com.example.sevenwindstest.ui.shoppingCart.ShoppingCartViewModel
 
 @Composable
 fun AppNavGraph(
@@ -36,7 +33,8 @@ fun AppNavGraph(
             LoginRoute(
                 onNavigateToCoffeeList = {
                     navController.navigate(Screen.CoffeeShopList.route)
-                }
+                },
+                navController = navController
             )
         }
 
@@ -44,7 +42,8 @@ fun AppNavGraph(
             CoffeeShopListRoute(
                 onNavigateToCoffeeShop = { coffeeShopId ->
                     navController.navigate(Screen.CoffeeShop.createRoute(coffeeShopId))
-                }
+                },
+                navController = navController
             )
         }
 
@@ -55,7 +54,8 @@ fun AppNavGraph(
             CoffeeShopMenuRoute(
                 onNavigateToShoppingCart = {
                     navController.navigate(Screen.ShoppingCart.route)
-                }
+                },
+                navController = navController
             )
         }
 

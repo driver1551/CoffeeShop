@@ -6,11 +6,13 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.example.sevenwindstest.ui.shoppingCart.ShoppingCartViewModel
 
 @Composable
 fun CoffeeShopMenuRoute(
-    onNavigateToShoppingCart: () -> Unit
+    onNavigateToShoppingCart: () -> Unit,
+    navController: NavController
 ) {
     val viewModel: CoffeeShopMenuViewModel = hiltViewModel()
     val uiState by viewModel.uiState.collectAsState()
@@ -30,6 +32,7 @@ fun CoffeeShopMenuRoute(
         cartState = cartState,
         onToShoppingCartClick = viewModel::onToShoppingCartClick,
         onAddItem = shoppingCartViewModel::addItem,
-        onRemoveItem = shoppingCartViewModel::removeItem
+        onRemoveItem = shoppingCartViewModel::removeItem,
+        onBackClick = { navController.popBackStack() }
     )
 }

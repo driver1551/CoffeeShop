@@ -16,6 +16,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -25,53 +26,72 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.sevenwindstest.data.dto.CoffeeShop
 import com.example.sevenwindstest.data.dto.Point
+import com.example.sevenwindstest.navigation.AppTopBar
 
 @Composable
 fun CoffeeShopListScreen(
     uiState: CoffeeShopListUiState,
-    onCoffeeShopClick: (Int) -> Unit
+    onCoffeeShopClick: (Int) -> Unit,
+    onBackClick: () -> Unit
 ) {
-    when {
-        uiState.isLoading -> {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                CircularProgressIndicator()
-            }
-        }
+    Scaffold(
+        topBar = {
+            AppTopBar(
+                title = "Ближайшие кофейни",
+                canNavigateBack = true,
+                onBackClick = onBackClick
+            )
+        }, content = { innerPadding ->
+            when {
+                uiState.isLoading -> {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(innerPadding),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator()
+                    }
+                }
 
-        uiState.errorMessage != null -> {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(text = uiState.errorMessage, color = Color.Red)
-            }
-        }
+                uiState.errorMessage != null -> {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(innerPadding),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(text = uiState.errorMessage, color = Color.Red)
+                    }
+                }
 
-        uiState.coffeeShopList == null -> {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(text = "Данные не найдены", color = Color.Red)
-            }
-        }
+                uiState.coffeeShopList == null -> {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(innerPadding),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(text = "Данные не найдены", color = Color.Red)
+                    }
+                }
 
-        else -> {
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                items(uiState.coffeeShopList) { coffeeShop ->
-                    CoffeeShopCard(coffeeShop, onClick = onCoffeeShopClick)
+                else -> {
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(16.dp)
+                            .padding(innerPadding),
+                        verticalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        items(uiState.coffeeShopList) { coffeeShop ->
+                            CoffeeShopCard(coffeeShop, onClick = onCoffeeShopClick)
+                        }
+                    }
                 }
             }
         }
-    }
+    )
 }
 
 @Composable
@@ -135,6 +155,7 @@ fun CoffeeShopListPreview() {
             errorMessage = null,
             coffeeShopList = coffeeShopList
         ),
-        onCoffeeShopClick = {}
+        onCoffeeShopClick = {},
+        onBackClick = {}
     )
 }

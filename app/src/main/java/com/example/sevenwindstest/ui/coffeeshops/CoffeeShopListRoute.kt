@@ -6,10 +6,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 
 @Composable
 fun CoffeeShopListRoute(
-    onNavigateToCoffeeShop: (Int) -> Unit
+    onNavigateToCoffeeShop: (Int) -> Unit,
+    navController: NavController
 ) {
     val viewModel: CoffeeShopListViewModel = hiltViewModel()
     val uiState by viewModel.uiState.collectAsState()
@@ -23,6 +25,7 @@ fun CoffeeShopListRoute(
 
     CoffeeShopListScreen(
         uiState = uiState,
-        onCoffeeShopClick = viewModel::onCoffeeShopClick
+        onCoffeeShopClick = viewModel::onCoffeeShopClick,
+        onBackClick = { navController.popBackStack() }
     )
 }
