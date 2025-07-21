@@ -19,6 +19,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.sevenwindstest.navigation.AppTopBar
+import com.example.sevenwindstest.ui.common.AppButton
+import com.example.sevenwindstest.ui.common.AppOutlinedTextField
+import com.example.sevenwindstest.ui.theme.SevenWindsTestTheme
+import com.example.sevenwindstest.ui.theme.textColor
 
 @Composable
 fun LoginScreen(
@@ -26,14 +30,16 @@ fun LoginScreen(
     onLoginChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
     onLoginClick: () -> Unit,
-    onBackClick:() -> Unit
+    onBackClick: () -> Unit
 ) {
     Scaffold(
-        topBar = { AppTopBar(
-            title = "Вход",
-            canNavigateBack = true,
-            onBackClick = onBackClick
-        ) }, content = { innerPadding ->
+        topBar = {
+            AppTopBar(
+                title = "Вход",
+                canNavigateBack = true,
+                onBackClick = onBackClick
+            )
+        }, content = { innerPadding ->
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -42,26 +48,26 @@ fun LoginScreen(
                 verticalArrangement = Arrangement.Center
             ) {
 
-                OutlinedTextField(
+                AppOutlinedTextField(
                     value = uiState.email,
                     onValueChange = onLoginChange,
-                    label = { Text("Email") },
+                    label = "Email",
                     modifier = Modifier.fillMaxWidth()
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                OutlinedTextField(
+                AppOutlinedTextField(
                     value = uiState.password,
                     onValueChange = onPasswordChange,
-                    label = { Text("Пароль") },
+                    label = "Пароль",
                     modifier = Modifier.fillMaxWidth(),
                     visualTransformation = PasswordVisualTransformation()
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                Button(
+                AppButton(
                     onClick = onLoginClick,
                     modifier = Modifier.fillMaxWidth(),
                     enabled = !uiState.isLoading
@@ -86,16 +92,17 @@ fun LoginScreen(
 
 @Preview(showBackground = true)
 @Composable
-fun LoginScreenPreview() {
-    LoginScreen(
-        uiState = LoginUiState(
-            email = "test@example.com",
-            password = "123456",
-            errorMessage = "Что-то пошло не так ..."
-        ),
-        onLoginChange = {},
-        onPasswordChange = {},
-        onLoginClick = {},
-        onBackClick = {}
-    )
+fun LoginScreenLightPreview() {
+    SevenWindsTestTheme {
+        LoginScreen(
+            uiState = LoginUiState(
+                email = "test@example.com",
+                password = "123456"
+            ),
+            onLoginChange = {},
+            onPasswordChange = {},
+            onLoginClick = {},
+            onBackClick = {}
+        )
+    }
 }

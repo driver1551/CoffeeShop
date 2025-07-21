@@ -27,6 +27,9 @@ import androidx.compose.ui.unit.dp
 import com.example.sevenwindstest.data.dto.CoffeeShop
 import com.example.sevenwindstest.data.dto.Point
 import com.example.sevenwindstest.navigation.AppTopBar
+import com.example.sevenwindstest.ui.common.AppElevatedCard
+import com.example.sevenwindstest.ui.common.AppText
+import com.example.sevenwindstest.ui.theme.SevenWindsTestTheme
 
 @Composable
 fun CoffeeShopListScreen(
@@ -99,20 +102,18 @@ fun CoffeeShopCard(
     coffeeShop: CoffeeShop,
     onClick: (Int) -> Unit
 ) {
-    ElevatedCard(
+    AppElevatedCard(
         modifier = Modifier
-            .fillMaxWidth()
-            .clickable { onClick(coffeeShop.id) },
-        shape = RoundedCornerShape(16.dp),
-        elevation = CardDefaults.elevatedCardElevation(defaultElevation = 4.dp)
+            .fillMaxWidth(),
+        onClick = { onClick(coffeeShop.id) }
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Text(
+            AppText(
                 text = coffeeShop.name,
                 style = MaterialTheme.typography.titleMedium
             )
             Spacer(modifier = Modifier.height(4.dp))
-            Text(
+            AppText(
                 text = "х км от вас",
                 style = MaterialTheme.typography.bodyMedium
             )
@@ -149,13 +150,15 @@ fun CoffeeShopListPreview() {
             )
         )
     )
-    CoffeeShopListScreen(
-        uiState = CoffeeShopListUiState(
-            isLoading = false,
-            errorMessage = null,
-            coffeeShopList = coffeeShopList
-        ),
-        onCoffeeShopClick = {},
-        onBackClick = {}
-    )
+    SevenWindsTestTheme {
+        CoffeeShopListScreen(
+            uiState = CoffeeShopListUiState(
+                isLoading = false,
+                errorMessage = null,
+                coffeeShopList = coffeeShopList
+            ),
+            onCoffeeShopClick = {},
+            onBackClick = {}
+        )
+    }
 }

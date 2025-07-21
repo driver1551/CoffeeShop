@@ -12,15 +12,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Remove
-import androidx.compose.material3.Button
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ElevatedCard
-import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -30,13 +25,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.sevenwindstest.data.dto.CoffeeShopMenuItem
 import com.example.sevenwindstest.navigation.AppTopBar
+import com.example.sevenwindstest.ui.common.AppButton
+import com.example.sevenwindstest.ui.common.AppElevatedCard
+import com.example.sevenwindstest.ui.common.AppIcon
+import com.example.sevenwindstest.ui.common.AppText
 import com.example.sevenwindstest.ui.shoppingCart.ShoppingCartUiState
+import com.example.sevenwindstest.ui.theme.SevenWindsTestTheme
 
 @Composable
 fun CoffeeShopMenuScreen(
@@ -94,6 +93,7 @@ fun CoffeeShopMenuScreen(
                                 .fillMaxWidth()
                                 .padding(innerPadding)
                                 .padding(vertical = 8.dp)
+                                .padding(horizontal = 4.dp)
                                 .weight(1f),
                             verticalArrangement = Arrangement.spacedBy(12.dp),
                             horizontalArrangement = Arrangement.spacedBy(12.dp)
@@ -112,7 +112,7 @@ fun CoffeeShopMenuScreen(
                             }
                         }
 
-                        Button(
+                        AppButton(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(16.dp),
@@ -134,10 +134,8 @@ fun MenuItem(
     onAddItem: (CoffeeShopMenuItem) -> Unit,
     onRemoveItem: (CoffeeShopMenuItem) -> Unit
 ) {
-    ElevatedCard(
-        shape = RoundedCornerShape(16.dp),
-        elevation = CardDefaults.elevatedCardElevation(defaultElevation = 4.dp),
-        modifier = Modifier.fillMaxWidth()
+    AppElevatedCard(
+        onClick = {}
     ) {
         Column(modifier = Modifier.fillMaxWidth()) {
             AsyncImage(
@@ -150,7 +148,7 @@ fun MenuItem(
             )
 
             Column(modifier = Modifier.padding(8.dp)) {
-                Text(
+                AppText(
                     text = coffeeShopMenuItem.name,
                     style = MaterialTheme.typography.titleMedium
                 )
@@ -160,10 +158,9 @@ fun MenuItem(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text(
+                    AppText(
                         text = "${coffeeShopMenuItem.price} руб",
                         style = MaterialTheme.typography.bodyMedium,
-                        fontWeight = FontWeight.Bold
                     )
 
                     IconButton(
@@ -172,15 +169,24 @@ fun MenuItem(
                         },
                         enabled = quantity > 0
                     ) {
-                        Icon(Icons.Default.Remove, contentDescription = "Уменьшить")
+                        AppIcon(
+                            Icons.Default.Remove,
+                            contentDescription = "Уменьшить"
+                        )
                     }
 
-                    Text(text = quantity.toString())
+                    AppText(
+                        text = quantity.toString(),
+                        style = MaterialTheme.typography.bodySmall
+                    )
 
                     IconButton(onClick = {
                         onAddItem(coffeeShopMenuItem)
                     }) {
-                        Icon(Icons.Default.Add, contentDescription = "Увеличить")
+                        AppIcon(
+                            Icons.Default.Add,
+                            contentDescription = "Увеличить"
+                        )
                     }
                 }
             }
@@ -203,43 +209,47 @@ fun IsLoading(innerPadding: PaddingValues) {
 @Composable
 @Preview(showBackground = true)
 fun CoffeeShopMenuPreview() {
-    MenuItem(
-        CoffeeShopMenuItem(
-            id = 0,
-            name = "Эспрессо",
-            imageURL = "https://postmania.ru//files/products/0215-a.800x600.jpg",
-            price = 100L
-        ),
-        onAddItem = {},
-        onRemoveItem = {},
-        quantity = 1
-    )
+    SevenWindsTestTheme {
+        MenuItem(
+            CoffeeShopMenuItem(
+                id = 0,
+                name = "Эспрессо",
+                imageURL = "https://postmania.ru//files/products/0215-a.800x600.jpg",
+                price = 100L
+            ),
+            onAddItem = {},
+            onRemoveItem = {},
+            quantity = 1
+        )
+    }
 }
 
 @Composable
 @Preview(showBackground = true)
 fun CoffeeShopMenuScreenPreview() {
-    CoffeeShopMenuScreen(
-        uiState = CoffeeShopMenuUiState(
-            coffeeShopMenuItemList = listOf(
-                CoffeeShopMenuItem(
-                    id = 0,
-                    name = "Эспрессо",
-                    imageURL = "https://postmania.ru//files/products/0215-a.800x600.jpg",
-                    price = 100L
-                ),
-                CoffeeShopMenuItem(
-                    id = 1,
-                    name = "Латте",
-                    imageURL = "https://gardman.ua/image/cache/catalog/blog/polza-kofe-1080x720.jpg",
-                    price = 100L
-                ),
-            )
-        ),
-        onToShoppingCartClick = {},
-        onAddItem = {},
-        onRemoveItem = {},
-        cartState = ShoppingCartUiState(),
-        onBackClick = {}
-    )
+    SevenWindsTestTheme {
+        CoffeeShopMenuScreen(
+            uiState = CoffeeShopMenuUiState(
+                coffeeShopMenuItemList = listOf(
+                    CoffeeShopMenuItem(
+                        id = 0,
+                        name = "Эспрессо",
+                        imageURL = "https://postmania.ru//files/products/0215-a.800x600.jpg",
+                        price = 100L
+                    ),
+                    CoffeeShopMenuItem(
+                        id = 1,
+                        name = "Латте",
+                        imageURL = "https://gardman.ua/image/cache/catalog/blog/polza-kofe-1080x720.jpg",
+                        price = 100L
+                    ),
+                )
+            ),
+            onToShoppingCartClick = {},
+            onAddItem = {},
+            onRemoveItem = {},
+            cartState = ShoppingCartUiState(),
+            onBackClick = {}
+        )
+    }
 }
