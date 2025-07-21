@@ -52,15 +52,17 @@ fun AppOutlinedTextField(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     visualTransformation: VisualTransformation = VisualTransformation.None,
+    shape: RoundedCornerShape = RoundedCornerShape(32.dp)
 ) {
     OutlinedTextField(
         value = value,
         onValueChange = onValueChange,
         label = { Text(text = label, color = buttonTextColor) },
-        textStyle = androidx.compose.ui.text.TextStyle(color = buttonTextColor),
+        textStyle = TextStyle(color = buttonTextColor),
         modifier = modifier,
         enabled = enabled,
-        visualTransformation = visualTransformation
+        visualTransformation = visualTransformation,
+        shape = shape
     )
 }
 

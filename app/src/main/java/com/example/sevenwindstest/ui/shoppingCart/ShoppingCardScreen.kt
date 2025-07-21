@@ -1,6 +1,7 @@
 package com.example.sevenwindstest.ui.shoppingCart
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -13,7 +14,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Remove
-import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -32,6 +32,7 @@ import com.example.sevenwindstest.data.dto.CoffeeShopMenuItem
 import com.example.sevenwindstest.navigation.AppTopBar
 import com.example.sevenwindstest.ui.common.AppButton
 import com.example.sevenwindstest.ui.common.AppElevatedCard
+import com.example.sevenwindstest.ui.common.AppIcon
 
 @Composable
 fun ShoppingCartScreen(
@@ -57,7 +58,12 @@ fun ShoppingCartScreen(
             ) {
                 LazyColumn {
                     items(cartState.items) { cartItem ->
-                        AppElevatedCard(modifier = Modifier.padding(vertical = 4.dp)) {
+                        AppElevatedCard(
+                            modifier = Modifier.padding(
+                                vertical = 4.dp,
+                                horizontal = 4.dp
+                            )
+                        ) {
                             Row(
                                 Modifier
                                     .fillMaxWidth()
@@ -66,16 +72,21 @@ fun ShoppingCartScreen(
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Column {
-                                    Text(cartItem.item.name, fontWeight = FontWeight.Bold)
+                                    Text(
+                                        cartItem.item.name,
+                                        fontWeight = FontWeight.Bold,
+                                        color = Color(0xFF83623F)
+                                    )
                                     Text(
                                         "${cartItem.item.price} руб",
-                                        style = MaterialTheme.typography.bodyMedium
+                                        style = MaterialTheme.typography.bodyMedium,
+                                        color = Color(0xFF83623F)
                                     )
                                 }
 
                                 Row(verticalAlignment = Alignment.CenterVertically) {
                                     IconButton(onClick = { onRemoveItem(cartItem.item) }) {
-                                        Icon(
+                                        AppIcon(
                                             Icons.Default.Remove,
                                             contentDescription = "Удалить 1 товар"
                                         )
@@ -83,11 +94,12 @@ fun ShoppingCartScreen(
 
                                     Text(
                                         cartItem.quantity.toString(),
-                                        modifier = Modifier.padding(horizontal = 8.dp)
+                                        modifier = Modifier.padding(horizontal = 8.dp),
+                                        color = Color(0xFF83623F)
                                     )
 
                                     IconButton(onClick = { onAddItem(cartItem.item) }) {
-                                        Icon(
+                                        AppIcon(
                                             Icons.Default.Add,
                                             contentDescription = "Добавть 1 товар"
                                         )
@@ -100,18 +112,28 @@ fun ShoppingCartScreen(
 
                 Spacer(modifier = Modifier.weight(1f))
 
-                Text(
-                    text = "Время ожидания заказа\n15 минут!\nСпасибо, что выбрали нас!",
-                    modifier = Modifier.fillMaxWidth(),
-                    textAlign = TextAlign.Center,
-                    fontSize = 16.sp,
-                    color = Color(0xFF83623F)
-                )
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = "Время ожидания заказа\n15 минут!\nСпасибо, что выбрали нас!",
+                        textAlign = TextAlign.Center,
+                        fontSize = 28.sp,
+                        lineHeight = 36.sp,
+                        color = Color(0xFF83623F)
+                    )
+
+                }
 
                 Spacer(modifier = Modifier.height(16.dp))
 
                 AppButton(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
                     onClick = {}
                 ) {
                     Text("Оплатить")

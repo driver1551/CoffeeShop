@@ -81,7 +81,7 @@ fun RegistrationScreen(
                     modifier = Modifier.fillMaxWidth(),
                     enabled = !uiState.isLoading
                 ) {
-                    Text("Зарегистрироваться")
+                    Text("Регистрация")
                 }
 
                 TextButton(onClick = onLoginClick) {
