@@ -24,10 +24,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -36,11 +32,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.example.sevenwindstest.data.dto.CoffeeShopMenu
+import com.example.sevenwindstest.data.dto.CoffeeShopMenuItem
+import com.example.sevenwindstest.ui.shoppingCart.ShoppingCartUiState
 
 @Composable
 fun CoffeeShopMenuScreen(
-    uiState: CoffeeShopMenuUiState
+    uiState: CoffeeShopMenuUiState,
+    cartState: ShoppingCartUiState,
+    onToShoppingCartClick: () -> Unit,
+    onAddItem: (CoffeeShopMenuItem) -> Unit,
+    onRemoveItem: (CoffeeShopMenuItem) -> Unit
 ) {
     when {
         uiState.isLoading -> {
@@ -56,11 +57,11 @@ fun CoffeeShopMenuScreen(
             }
         }
 
-        uiState.coffeeShopMenuList == null -> {
+        uiState.coffeeShopMenuItemList == null -> {
             IsLoading()
         }
 
-        uiState.coffeeShopMenuList.isEmpty() -> {
+        uiState.coffeeShopMenuItemList.isEmpty() -> {
             Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
@@ -80,8 +81,17 @@ fun CoffeeShopMenuScreen(
                     verticalArrangement = Arrangement.spacedBy(12.dp),
                     horizontalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
-                    items(uiState.coffeeShopMenuList) { coffeeShopMenu ->
-                        MenuItem(coffeeShopMenu)
+                    items(uiState.coffeeShopMenuItemList) { coffeeShopMenu ->
+                        val quantity = cartState.items
+                            .find { it.item.id == coffeeShopMenu.id }
+                            ?.quantity ?: 0
+
+                        MenuItem(
+                            coffeeShopMenuItem = coffeeShopMenu,
+                            quantity = quantity,
+                            onAddItem = onAddItem,
+                            onRemoveItem = onRemoveItem
+                        )
                     }
                 }
 
@@ -89,28 +99,30 @@ fun CoffeeShopMenuScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(16.dp),
-                    onClick = {}
-                ) { Text("Перейти к оплате") }
+                    onClick = onToShoppingCartClick
+                ) {
+                    Text("Перейти к оплате")
+                }
             }
         }
     }
 }
 
 @Composable
-fun MenuItem(coffeeShopMenu: CoffeeShopMenu) {
-    var quantity by remember { mutableIntStateOf(0) }
-
+fun MenuItem(
+    coffeeShopMenuItem: CoffeeShopMenuItem,
+    quantity: Int,
+    onAddItem: (CoffeeShopMenuItem) -> Unit,
+    onRemoveItem: (CoffeeShopMenuItem) -> Unit
+) {
     ElevatedCard(
         shape = RoundedCornerShape(16.dp),
         elevation = CardDefaults.elevatedCardElevation(defaultElevation = 4.dp),
         modifier = Modifier.fillMaxWidth()
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
+        Column(modifier = Modifier.fillMaxWidth()) {
             AsyncImage(
-                model = coffeeShopMenu.imageURL,
+                model = coffeeShopMenuItem.imageURL,
                 contentDescription = "Изображение товара",
                 modifier = Modifier
                     .fillMaxWidth()
@@ -118,13 +130,9 @@ fun MenuItem(coffeeShopMenu: CoffeeShopMenu) {
                 contentScale = ContentScale.Crop
             )
 
-            Column(
-                modifier = Modifier
-                    .padding(8.dp)
-                    .fillMaxWidth()
-            ) {
+            Column(modifier = Modifier.padding(8.dp)) {
                 Text(
-                    text = coffeeShopMenu.name,
+                    text = coffeeShopMenuItem.name,
                     style = MaterialTheme.typography.titleMedium
                 )
 
@@ -134,18 +142,25 @@ fun MenuItem(coffeeShopMenu: CoffeeShopMenu) {
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(
-                        text = "${coffeeShopMenu.price} руб",
+                        text = "${coffeeShopMenuItem.price} руб",
                         style = MaterialTheme.typography.bodyMedium,
                         fontWeight = FontWeight.Bold
                     )
 
-                    IconButton(onClick = { if (quantity > 0) quantity-- }, enabled = quantity > 0) {
+                    IconButton(
+                        onClick = {
+                            if (quantity > 0) onRemoveItem(coffeeShopMenuItem)
+                        },
+                        enabled = quantity > 0
+                    ) {
                         Icon(Icons.Default.Remove, contentDescription = "Уменьшить")
                     }
 
                     Text(text = quantity.toString())
 
-                    IconButton(onClick = { quantity++ }) {
+                    IconButton(onClick = {
+                        onAddItem(coffeeShopMenuItem)
+                    }) {
                         Icon(Icons.Default.Add, contentDescription = "Увеличить")
                     }
                 }
@@ -168,12 +183,15 @@ fun IsLoading() {
 @Preview(showBackground = true)
 fun CoffeeShopMenuPreview() {
     MenuItem(
-        CoffeeShopMenu(
+        CoffeeShopMenuItem(
             id = 0,
             name = "Эспрессо",
             imageURL = "https://postmania.ru//files/products/0215-a.800x600.jpg",
             price = 100L
-        )
+        ),
+        onAddItem = {},
+        onRemoveItem = {},
+        quantity = 1
     )
 }
 
@@ -182,20 +200,24 @@ fun CoffeeShopMenuPreview() {
 fun CoffeeShopMenuScreenPreview() {
     CoffeeShopMenuScreen(
         uiState = CoffeeShopMenuUiState(
-            coffeeShopMenuList = listOf(
-                CoffeeShopMenu(
+            coffeeShopMenuItemList = listOf(
+                CoffeeShopMenuItem(
                     id = 0,
                     name = "Эспрессо",
                     imageURL = "https://postmania.ru//files/products/0215-a.800x600.jpg",
                     price = 100L
                 ),
-                CoffeeShopMenu(
+                CoffeeShopMenuItem(
                     id = 1,
                     name = "Латте",
                     imageURL = "https://gardman.ua/image/cache/catalog/blog/polza-kofe-1080x720.jpg",
                     price = 100L
                 ),
             )
-        )
+        ),
+        onToShoppingCartClick = {},
+        onAddItem = {},
+        onRemoveItem = {},
+        cartState = ShoppingCartUiState()
     )
 }
