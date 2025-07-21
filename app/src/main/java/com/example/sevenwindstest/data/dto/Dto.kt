@@ -31,9 +31,18 @@ data class Point(
     val longitude: Double
 )
 
-data class CoffeeShopMenu(
+data class CoffeeShopMenuItem(
     val id: Long,
     val name: String,
     val imageURL: String,
     val price: Long
+)
+
+data class ShoppingCart(
+    val items: Map<Long, CartItem> = emptyMap()
+)
+
+data class CartItem(
+    val item: CoffeeShopMenuItem,
+    val quantity: Int
 )
