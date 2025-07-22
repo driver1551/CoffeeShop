@@ -49,7 +49,8 @@ fun CoffeeShopListScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp),
-                onClick = onMapClick
+                onClick = onMapClick,
+                enabled = uiState.locationAvailable
             ) {
                 Text("На карте")
             }
@@ -124,7 +125,7 @@ fun CoffeeShopCard(
             )
             Spacer(modifier = Modifier.height(4.dp))
             AppText(
-                text = "${coffeeShop.distanceMeters} км от вас",
+                text = if (coffeeShop.distanceMeters == Float.MAX_VALUE) "Мы не можем посчитать расстояние без разрешения" else "${coffeeShop.distanceMeters} км от вас",
                 style = MaterialTheme.typography.bodyMedium
             )
         }
