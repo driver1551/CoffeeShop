@@ -75,4 +75,13 @@ dependencies {
     implementation("io.coil-kt:coil-compose:2.4.0")
 
     implementation("androidx.compose.material:material-icons-extended:1.7.8")
+
+    // Yandex map
+    implementation("com.yandex.android:maps.mobile:4.17.0-lite")
+
+    implementation("com.google.android.gms:play-services-location:21.0.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
+
+    // Compose permissions
+    implementation("com.google.accompanist:accompanist-permissions:0.37.3")
 }
