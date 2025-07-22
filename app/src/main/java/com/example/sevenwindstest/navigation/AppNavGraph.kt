@@ -16,8 +16,9 @@ import com.example.sevenwindstest.ui.shoppingCart.ShoppingCartRoute
 
 @Composable
 fun AppNavGraph(
-    navController: NavHostController = rememberNavController()
-) {
+    navController: NavHostController = rememberNavController(),
+
+    ) {
     NavHost(
         navController = navController,
         startDestination = Screen.Register.route
@@ -68,7 +69,11 @@ fun AppNavGraph(
         }
 
         composable(route = Screen.Map.route) {
-            CoffeeShopMapRoute(navController)
+            CoffeeShopMapRoute(
+                navController = navController,
+                onNavigateToCoffeeShop = { coffeeShopId ->
+                    navController.navigate(Screen.CoffeeShop.createRoute(coffeeShopId))
+                })
         }
     }
 }

@@ -4,9 +4,11 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -17,7 +19,8 @@ import com.example.sevenwindstest.ui.shoppingCart.ShoppingCartViewModel
 
 @Composable
 fun CoffeeShopMapRoute(
-    navController: NavController
+    navController: NavController,
+    onNavigateToCoffeeShop: (Int) -> Unit
 ){
     val parentEntry = remember(navController.currentBackStackEntry) {
         navController.getBackStackEntry(Screen.CoffeeShopList.route)
@@ -25,6 +28,14 @@ fun CoffeeShopMapRoute(
     val viewModel: CoffeeShopListViewModel = hiltViewModel(parentEntry)
 
     val uiState by viewModel.uiState.collectAsState()
+
+    val navigateToCoffeeShop by rememberUpdatedState(onNavigateToCoffeeShop)
+
+    LaunchedEffect(Unit) {
+        viewModel.navigateToCoffeeShop.collect { id ->
+            navigateToCoffeeShop(id)
+        }
+    }
 
     uiState.coffeeShopsWithDistance?.let { shops ->
         CoffeeShopsMapScreen(
