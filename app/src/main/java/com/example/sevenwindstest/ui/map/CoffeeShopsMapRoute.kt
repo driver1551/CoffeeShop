@@ -27,7 +27,11 @@ fun CoffeeShopMapRoute(
     val uiState by viewModel.uiState.collectAsState()
 
     uiState.coffeeShopsWithDistance?.let { shops ->
-        CoffeeShopsMapScreen(coffeeShops = shops)
+        CoffeeShopsMapScreen(
+            coffeeShops = shops,
+            onBackClick = { navController.popBackStack() },
+            onCoffeeShopClick = viewModel::onCoffeeShopClick
+        )
     } ?: run {
         // пока список не загружен
         Box(
