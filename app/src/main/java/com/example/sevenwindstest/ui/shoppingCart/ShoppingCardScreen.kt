@@ -48,7 +48,17 @@ fun ShoppingCartScreen(
                 canNavigateBack = true,
                 onBackClick = onBackClick
             )
-        }, content = { innerPadding ->
+        }, bottomBar = {
+            AppButton(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                onClick = {}
+            ) {
+                Text("Оплатить")
+            }
+        },
+        content = { innerPadding ->
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -128,16 +138,7 @@ fun ShoppingCartScreen(
 
                 }
 
-                Spacer(modifier = Modifier.height(16.dp))
-
-                AppButton(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp),
-                    onClick = {}
-                ) {
-                    Text("Оплатить")
-                }
+                Spacer(modifier = Modifier.height(36.dp))
             }
         }
     )
