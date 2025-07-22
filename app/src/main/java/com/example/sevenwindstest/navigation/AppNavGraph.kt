@@ -10,6 +10,7 @@ import androidx.navigation.navArgument
 import com.example.sevenwindstest.ui.coffeeShopMenu.CoffeeShopMenuRoute
 import com.example.sevenwindstest.ui.coffeeshops.CoffeeShopListRoute
 import com.example.sevenwindstest.ui.login.LoginRoute
+import com.example.sevenwindstest.ui.map.CoffeeShopMapRoute
 import com.example.sevenwindstest.ui.registration.RegistrationRoute
 import com.example.sevenwindstest.ui.shoppingCart.ShoppingCartRoute
 
@@ -43,6 +44,9 @@ fun AppNavGraph(
                 onNavigateToCoffeeShop = { coffeeShopId ->
                     navController.navigate(Screen.CoffeeShop.createRoute(coffeeShopId))
                 },
+                onNavigateToMap = {
+                    navController.navigate(Screen.Map.route)
+                },
                 navController = navController
             )
         }
@@ -61,6 +65,10 @@ fun AppNavGraph(
 
         composable(route = Screen.ShoppingCart.route) {
             ShoppingCartRoute(navController)
+        }
+
+        composable(route = Screen.Map.route) {
+            CoffeeShopMapRoute(navController)
         }
     }
 }
