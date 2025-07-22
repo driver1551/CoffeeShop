@@ -38,10 +38,6 @@ data class CoffeeShopMenuItem(
     val price: Long
 )
 
-data class ShoppingCart(
-    val items: Map<Long, CartItem> = emptyMap()
-)
-
 data class CartItem(
     val item: CoffeeShopMenuItem,
     val quantity: Int

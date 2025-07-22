@@ -7,8 +7,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,7 +20,6 @@ import com.example.sevenwindstest.navigation.AppTopBar
 import com.example.sevenwindstest.ui.common.AppButton
 import com.example.sevenwindstest.ui.common.AppOutlinedTextField
 import com.example.sevenwindstest.ui.theme.SevenWindsTestTheme
-import com.example.sevenwindstest.ui.theme.textColor
 
 @Composable
 fun LoginScreen(

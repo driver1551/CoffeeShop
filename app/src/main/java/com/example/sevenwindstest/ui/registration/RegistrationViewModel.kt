@@ -45,7 +45,7 @@ class RegistrationViewModel @Inject constructor(
                 _navigateToLogin.emit(Unit)
             } else {
                 _uiState.setErrorMessage(result.toString())
-                _navigateToLogin.emit(Unit) // заглушка
+                _navigateToLogin.emit(Unit)
             }
             _uiState.setLoading(false)
         }
