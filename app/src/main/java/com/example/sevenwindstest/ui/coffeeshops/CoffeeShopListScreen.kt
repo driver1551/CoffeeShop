@@ -22,7 +22,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.sevenwindstest.data.dto.CoffeeShop
 import com.example.sevenwindstest.data.dto.Point
+import com.example.sevenwindstest.domain.model.CoffeeShopWithDistance
 import com.example.sevenwindstest.navigation.AppTopBar
+import com.example.sevenwindstest.ui.common.AppButton
 import com.example.sevenwindstest.ui.common.AppElevatedCard
 import com.example.sevenwindstest.ui.common.AppText
 import com.example.sevenwindstest.ui.theme.SevenWindsTestTheme
@@ -31,7 +33,8 @@ import com.example.sevenwindstest.ui.theme.SevenWindsTestTheme
 fun CoffeeShopListScreen(
     uiState: CoffeeShopListUiState,
     onCoffeeShopClick: (Int) -> Unit,
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
+    onMapClick: () -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -40,7 +43,18 @@ fun CoffeeShopListScreen(
                 canNavigateBack = true,
                 onBackClick = onBackClick
             )
-        }, content = { innerPadding ->
+        },
+        bottomBar = {
+            AppButton(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                onClick = onMapClick
+            ) {
+                Text("На карте")
+            }
+        },
+        content = { innerPadding ->
             when {
                 uiState.isLoading -> {
                     Box(
@@ -64,7 +78,7 @@ fun CoffeeShopListScreen(
                     }
                 }
 
-                uiState.coffeeShopList == null -> {
+                uiState.coffeeShopsWithDistance == null -> {
                     Box(
                         modifier = Modifier
                             .fillMaxSize()
@@ -83,8 +97,8 @@ fun CoffeeShopListScreen(
                             .padding(innerPadding),
                         verticalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
-                        items(uiState.coffeeShopList) { coffeeShop ->
-                            CoffeeShopCard(coffeeShop, onClick = onCoffeeShopClick)
+                        items(uiState.coffeeShopsWithDistance) { coffeeShopWithDistance ->
+                            CoffeeShopCard(coffeeShopWithDistance, onClick = onCoffeeShopClick)
                         }
                     }
                 }
@@ -95,22 +109,22 @@ fun CoffeeShopListScreen(
 
 @Composable
 fun CoffeeShopCard(
-    coffeeShop: CoffeeShop,
+    coffeeShop: CoffeeShopWithDistance,
     onClick: (Int) -> Unit
 ) {
     AppElevatedCard(
         modifier = Modifier
             .fillMaxWidth(),
-        onClick = { onClick(coffeeShop.id) }
+        onClick = { onClick(coffeeShop.coffeeShop.id) }
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             AppText(
-                text = coffeeShop.name,
+                text = coffeeShop.coffeeShop.name,
                 style = MaterialTheme.typography.titleMedium
             )
             Spacer(modifier = Modifier.height(4.dp))
             AppText(
-                text = "х км от вас",
+                text = "${coffeeShop.distanceMeters} км от вас",
                 style = MaterialTheme.typography.bodyMedium
             )
         }
@@ -121,29 +135,38 @@ fun CoffeeShopCard(
 @Preview(showBackground = true)
 fun CoffeeShopListPreview() {
     val coffeeShopList = listOf(
-        CoffeeShop(
-            id = 1,
-            name = "Кофешоп 1",
-            point = Point(
-                latitude = 9.21,
-                longitude = 2.22
-            )
+        CoffeeShopWithDistance(
+            CoffeeShop(
+                id = 1,
+                name = "Кофешоп 1",
+                point = Point(
+                    latitude = 9.21,
+                    longitude = 2.22
+                )
+            ),
+            distanceMeters = 3f
         ),
-        CoffeeShop(
-            id = 2,
-            name = "Кофешоп 2",
-            point = Point(
-                latitude = 1.12,
-                longitude = 2.44
-            )
+        CoffeeShopWithDistance(
+            CoffeeShop(
+                id = 1,
+                name = "Кофешоп 1",
+                point = Point(
+                    latitude = 9.21,
+                    longitude = 2.22
+                )
+            ),
+            distanceMeters = 3f
         ),
-        CoffeeShop(
-            id = 3,
-            name = "Кофешоп 3",
-            point = Point(
-                latitude = 1.12,
-                longitude = 2.44
-            )
+        CoffeeShopWithDistance(
+            CoffeeShop(
+                id = 1,
+                name = "Кофешоп 1",
+                point = Point(
+                    latitude = 9.21,
+                    longitude = 2.22
+                )
+            ),
+            distanceMeters = 3f
         )
     )
     SevenWindsTestTheme {
@@ -151,10 +174,11 @@ fun CoffeeShopListPreview() {
             uiState = CoffeeShopListUiState(
                 isLoading = false,
                 errorMessage = null,
-                coffeeShopList = coffeeShopList
+                coffeeShopsWithDistance = coffeeShopList
             ),
             onCoffeeShopClick = {},
-            onBackClick = {}
+            onBackClick = {},
+            onMapClick = {}
         )
     }
 }
