@@ -11,11 +11,14 @@ import androidx.navigation.NavController
 @Composable
 fun CoffeeShopListRoute(
     onNavigateToCoffeeShop: (Int) -> Unit,
+    onNavigateToMap: () -> Unit,
     navController: NavController
 ) {
     val viewModel: CoffeeShopListViewModel = hiltViewModel()
     val uiState by viewModel.uiState.collectAsState()
+
     val navigateToCoffeeShop by rememberUpdatedState(onNavigateToCoffeeShop)
+    val navigateToMap by rememberUpdatedState(onNavigateToMap)
 
     LaunchedEffect(Unit) {
         viewModel.navigateToCoffeeShop.collect { id ->
@@ -23,9 +26,16 @@ fun CoffeeShopListRoute(
         }
     }
 
+    LaunchedEffect(Unit) {
+        viewModel.navigateToMap.collect {
+            navigateToMap()
+        }
+    }
+
     CoffeeShopListScreen(
         uiState = uiState,
         onCoffeeShopClick = viewModel::onCoffeeShopClick,
-        onBackClick = { navController.popBackStack() }
+        onBackClick = { navController.popBackStack() },
+        onMapClick = viewModel::onMapClick
     )
 }
