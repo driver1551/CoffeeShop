@@ -8,4 +8,5 @@ sealed class Screen(val route: String) {
         fun createRoute(id: Int) = "coffee_shop/$id"
     }
     object ShoppingCart: Screen("shopping_cart")
+    object Map: Screen(route = "map")
 }
